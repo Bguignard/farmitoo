@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+{% block title %}Cart{% endblock %}
+{% block container %}
+    <div class="container">
+        <h1>{% trans %}Votre panier{% endtrans %}</h1>
+        <div class="row">
+            <div class="col-12">
+                <h2>{% trans %}Produits{% endtrans %}</h2>
+                <div class="list-group">
+                    {% for item in order.items %}
+                        <div class="list-group-item list-group-item-action flex-column align-items-start">
+                            <h3>{{ item.product.title }}</h3>
+                            <p>Prix unitaire : {{ item.product.price }}€</p>
+                            <p>Marque : {{ item.product.brand.name }}</p>
+                            <p>Quantité : {{ item.quantity }}</p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-0 col-md-6">
+                    </div>
+                    <div class="col-12 col-md-6 text-right">
+                        <h2>{% trans %}Commande{% endtrans %}</h2>
+                        <p><h4>Sous-total HT :</h4> {{ order.taxFreeRawAmount }}€</p>
+                        <p>Promotion :
+                            {% if order.promotion is not null %}
+                                {{ order.promotion.reduction }} €
+                                {% if order.promotion.freeDelivery %}
+                                    {% trans %}Frais de port offerts{% endtrans %}
+                                {% endif %}
+                            {% else %}
+                                aucune
+                            {% endif %}
+                        </p>
+                        <p>Frais de port HT : {{ order.freight }}€</p>
+                        <p>Total HT : {{ order.taxfreeAmount }}€</p>
+                        <p><h3>Total TTC : {{ order.amount }}€</h3></p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="row float-right">
+            <a href="{{ path('orderPayment', {'amount': order.amount})}}" class="btn btn-lg btn-success">Payer</a>
+        </div>
+    </div>
+{% endblock %}

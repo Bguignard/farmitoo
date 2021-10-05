@@ -1,3 +1,6 @@
 index:
     path: /
     controller: App\Controller\MainController::index
+orderPayment:
+    path: /order-payment
+    controller: App\Controller\MainController::orderPayment
